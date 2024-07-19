@@ -1,0 +1,27 @@
+line = input().split(' ')
+n = int(line[0])
+x = int(line[1])
+
+coins = sorted(list(map(lambda x: int(x), input().split(' '))))
+
+# to count distinct ways, need to ensure that coins are ordered
+# in some way. Natural way is to make sure that the coins are in lexicographic order
+# so count sum where last coin is some value
+# mem[i][j] stores the number of ways to make i with j being the largest coin
+memo = [[0 for i in range(x+1)] for k in range(n)]
+for k in range(n):
+	memo[0][k] = 1
+# num of ways to make x is same as sum of number of ways to make 
+# x-c_i for all c_i 
+
+for i in range(1,x+1): 
+	memo[i] = 0
+	for k in range(len(coins)): 
+		if i-coins[k] >= 0:
+			memo[i] += memo[i-c]
+		else: 
+			break
+
+
+print(memo[x] % (10**9 + 7))
+
